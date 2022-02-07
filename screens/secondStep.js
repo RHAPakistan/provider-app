@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Image, Button, Icon,SafeAreaView, TouchableOpacity, Picker} from 'react-native';
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { styles } from "./styles";
 import ModalDropdown from "react-native-modal-dropdown";
+import { socket } from "../context/socket";
 function SecondStep({navigation}) {
 
     const [text, onChangeText] = React.useState("name");

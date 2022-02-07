@@ -11,6 +11,7 @@ import FirstStep from "./firstStep";
 import SecondStep from "./secondStep";
 import ThirdStep from "./thirdStep";
 import FinalStep from "./finalStep";
+import Contact from "./contact";
 
 
 export default function DashStack({navigation}) {
@@ -20,12 +21,11 @@ export default function DashStack({navigation}) {
   function onClick(){
   }
   return ( 
-      <NavigationContainer independent={true}>
-          <Stack.Navigator>
+          <Stack.Navigator >
               <Stack.Screen
                   name="dashboard"
                   component={Dashboard}
-                  options={{ title: 'Dashboard' }}
+                  options={{ title: 'Dashboard'}  }
               />
               <Stack.Screen
                   name="firststep"
@@ -42,7 +42,10 @@ export default function DashStack({navigation}) {
                 name = "finalstep"
                 component = {FinalStep}
                 />
+            <Stack.Screen
+                name = "contact"
+                component = {Contact}
+                />
           </Stack.Navigator>
-      </NavigationContainer>
          );
     }

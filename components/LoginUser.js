@@ -1,17 +1,32 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, TextInput, StyleSheet, ScrollView, Platform } from 'react-native';
+import { Animated, View, TouchableOpacity, Text, TextInput, StyleSheet, ScrollView, Platform } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { styles } from './styles';
+import * as SecureStore from 'expo-secure-store';
+var providerApi = require("../helpers/providerApi.js");
+
 
 const LoginUser = ({ navigation, shutDownModal }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const loginClicked = () => {
-        navigation.navigate("Drawer");
-    }
-    return (
-        <Animatable.View animation="fadeInUp" style={styles.footer} onPress={shutDownModal}>
 
+    const loginClicked = async () => {
+        console.log(email);
+        console.log(password);
+        var rp = await providerApi.signin(email,password);
+        if(rp){
+            navigation.navigate("Drawer");
+        }else{
+            alert("Not authorized! Invalid Email id or Password");
+        }
+    }
+    const backClicked = () => {
+        shutDownModal();
+    }
+    const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+    return (
+        //<AnimatedTouchable animation="fadeInUp" style={styles.footer} >
+        <View>
             <View style={styles.action}>
                 <TextInput
                     placeholder="Enter Email"
@@ -36,10 +51,11 @@ const LoginUser = ({ navigation, shutDownModal }) => {
                     <Text style={styles.buttonText}>User Login</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.button} onPress={shutDownModal}>
+            <TouchableOpacity style={styles.button} onPress={backClicked}>
                 <Text style={styles.buttonText}>back</Text>
             </TouchableOpacity>
-        </Animatable.View>
+</View>
+        //{/* </AnimatedTouchable> */}
     );
 };
 

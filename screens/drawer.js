@@ -14,20 +14,18 @@ import DashStack from "./dashStack";
 
 export default function Drawer() {
 
-  const Drawer = createDrawerNavigator();
+  const RootDrawerNavigator = createDrawerNavigator();
   
   function onClick(){
 
   }
-  return ( 
-            <NavigationContainer independent = {true}>            
-               <Drawer.Navigator initialRouteName="Dashboard">
-                <Drawer.Screen name = 'Dashboard' component = {DashStack} options ={{headerShown: false}}/>
-                <Drawer.Screen name = 'History' component = {History}/>
-                <Drawer.Screen name = 'Settings' component = {Settings_screen}/>
-                <Drawer.Screen name = 'Support' component = {Support} />
-               </Drawer.Navigator>        
-          </NavigationContainer>  
+  return (            
+                <RootDrawerNavigator.Navigator initialRouteName="Dashboard"  >
+                <RootDrawerNavigator.Screen name = 'Dashboard' component = {DashStack} />
+                <RootDrawerNavigator.Screen name = 'History' component = {History}/>
+                <RootDrawerNavigator.Screen name = 'Settings' component = {Settings_screen}/>
+                <RootDrawerNavigator.Screen name = 'Support' component = {Support} /> 
+               </RootDrawerNavigator.Navigator> 
 
          );
     }

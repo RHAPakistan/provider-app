@@ -9,11 +9,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 export default function Dashboard({navigation}) {
-
-  const Drawer = createDrawerNavigator();
   
   function onClick(){
     navigation.navigate('firststep')
+  }
+  function onClickContact(){
+    navigation.navigate('contact')
   }
   return ( 
     <SafeAreaView style={styles.containerDashboard}>
@@ -24,7 +25,7 @@ export default function Dashboard({navigation}) {
           <Text style={styles.pickupButtonText}>{"Create Pickup\n     Request"}</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={onClick} style={styles.createPickUpRequest}>
+      <TouchableOpacity onPress={onClickContact} style={styles.createPickUpRequest}>
         <Image style={{ borderRadius: 20 }} source={require('../assets/contact.png')} />
         <View >
           <Text style={styles.pickupButtonText}>{"     Contact"}</Text>

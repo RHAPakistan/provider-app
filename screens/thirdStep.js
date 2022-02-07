@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Image, Button, Icon,SafeAreaView, TouchableOpac
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { styles } from "./styles";
 import ModalDropdown from "react-native-modal-dropdown";
+import { useEffect } from "react/cjs/react.development";
+import { socket } from "../context/socket";
 function ThirdStep({navigation}) {
 
     const [text, onChangeText] = React.useState("name");
@@ -14,6 +16,7 @@ function ThirdStep({navigation}) {
     const [descriptionText, setDescription] = React.useState("Add description");
     const [locationLink, setLocation] = React.useState("paste maps link here or enter address");
     const [requestPlaced, setRequestPlaced] = React.useState('false');
+
 
     const cancelPickUp = () =>{
         navigation.navigate("firststep");

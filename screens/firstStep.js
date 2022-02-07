@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, View, Image, Button, Icon,SafeAreaView, TouchableOpacity, Picker} from 'react-native';
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { styles } from "./styles";
 import ModalDropdown from "react-native-modal-dropdown";
 import { NavigationContainer } from "@react-navigation/native";
+import io from "socket.io-client";
+import {SocketContext} from '../context/socket';
+const providerApi = require("../helpers/providerApi.js");
+import * as SecureStore from "expo-secure-store";
+import {SOCKET_URL} from "../config.json";
+import SecondStep from "./secondStep";
+
 function FirstStep({navigation}) {
 
+    const socket = useContext(SocketContext);
     const [text, onChangeText] = React.useState("name");
     const [phone, onChangePhone] = React.useState("phone");
     const [displayText, setDisplayText] = React.useState(text);
@@ -15,6 +23,8 @@ function FirstStep({navigation}) {
     const [descriptionText, setDescription] = React.useState("Add description");
     const [locationLink, setLocation] = React.useState("paste maps link here or enter address");
     const [requestPlaced, setRequestPlaced] = React.useState('false');
+    const [surplus, setSurplus] = React.useState("add surplus");
+
 
     const handleEdit = () =>{
         setEdit(!editClicked);
@@ -35,9 +45,44 @@ function FirstStep({navigation}) {
         setEdit(!editClicked);
     }
 
-    const placePickUp = () =>{
+    const placePickUp = async () =>{
         setRequestPlaced(!requestPlaced);
+        //const socket = io("http://localhost:5000");
+        // console.log(socket)
+        var provider_id = await SecureStore.getItemAsync("provider_id");
+        var pickup_object = {
+            "provider": provider_id,
+            // "admin":"",
+            // "volunteer":"",
+            "pickupAddress": "..",
+            // "deliveryAddress": "deliveryAddress",
+            // "placementTime":"",
+            // "acceptanceTime":"",
+            // "pickUpTime":"",
+            // "deliveryTime":"",
+            // "amountOfFood":"",
+            "typeOfFood":surplus,
+            "status":0
+        }
+        var response = await providerApi.createPickup(pickup_object);
+        if(response){
         navigation.navigate('secondstep');
+        }else{
+            alert("Pickup already exists");
+        }
+        console.log("Listening for Request Accepted");
+        //console.log(socket);
+        socket.on("Request Accepted", (data) =>{
+            navigation.navigate("thirdstep");
+            socket.off("Request Accepted");
+            console.log("Turned off listener for request accepted");
+            socket.on("Food picked", (data)=>{
+                navigation.navigate("finalstep");
+                socket.off("Food picked");
+                console.log("Turned off listener for food picked");
+            })
+        });
+
     }   
     return ( 
         <ScrollView>
@@ -280,7 +325,8 @@ function FirstStep({navigation}) {
                 textStyle={{
                 }}
                 options={["biryani","qaurma", "pulaow"]}
-                defaultValue = "surplus"
+                defaultValue = {surplus}
+                onChangeText={setSurplus}
                 />
             
             </View>
