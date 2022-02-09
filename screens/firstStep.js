@@ -22,6 +22,7 @@ function FirstStep({navigation}) {
     const [selectedValue, setSelectedValue] = React.useState("biryani");
     const [descriptionText, setDescription] = React.useState("Add description");
     const [locationLink, setLocation] = React.useState("paste maps link here or enter address");
+    const [amountOfFood, setAmountOfFood] = React.useState("Enter amount of food");    
     const [requestPlaced, setRequestPlaced] = React.useState('false');
     const [surplus, setSurplus] = React.useState("add surplus");
 
@@ -50,25 +51,32 @@ function FirstStep({navigation}) {
         //const socket = io("http://localhost:5000");
         // console.log(socket)
         var provider_id = await SecureStore.getItemAsync("provider_id");
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date+' '+time;
         var pickup_object = {
-            "provider": provider_id,
+            //"provider": provider_id,
             // "admin":"",
             // "volunteer":"",
-            "pickupAddress": "..",
+            "pickupAddress": locationLink,
+            "phone":phone,
+            "description":descriptionText,
             // "deliveryAddress": "deliveryAddress",
-            // "placementTime":"",
+            "placementTime":dateTime,
             // "acceptanceTime":"",
             // "pickUpTime":"",
             // "deliveryTime":"",
-            // "amountOfFood":"",
+            "amountOfFood":amountOfFood,
             "typeOfFood":surplus,
             "status":0
         }
         var response = await providerApi.createPickup(pickup_object);
-        if(response){
+        console.log(response);
+        if(response==true){
         navigation.navigate('secondstep');
         }else{
-            alert("Pickup already exists");
+            alert("Pickup already exists or some information missing");
         }
         console.log("Listening for Request Accepted");
         //console.log(socket);
@@ -242,7 +250,7 @@ function FirstStep({navigation}) {
                                     borderRadius: 10
                                 }}
                                 onChangeText={onChangeText}
-                                value={text}
+                                placeholder={text}
                             />
                         </View>
                         <View style={{ alignItems: "flex-start", flexDirection: "row" }}>
@@ -261,7 +269,7 @@ function FirstStep({navigation}) {
                                     borderRadius: 10
                                 }}
                                 onChangeText={onChangePhone}
-                                value={phone}
+                                placeholder={phone}
                             />
                         </View>
                     </View>
@@ -333,19 +341,19 @@ function FirstStep({navigation}) {
             <Text style ={{
                     alignItems: 'center',
                     padding: 10
-                }}>Description:</Text>
+                }}>Amount of food:</Text>
             <TextInput
             style={{
                 marginLeft: 10,
                 padding: 5,
                 width: '95%',
-                height: 100,
+                height: 50,
                 backgroundColor: 'white',
                 borderWidth: 1,
                 borderRadius: 10
             }}
-            onChangeText={setDescription}
-            value={descriptionText} />
+            onChangeText={setAmountOfFood}
+            placeholder={amountOfFood} />
             <Text style ={{
                     alignItems: 'center',
                     padding: 10
@@ -361,7 +369,24 @@ function FirstStep({navigation}) {
                 borderRadius: 10
             }}
             onChangeText={setLocation}
-            value={locationLink} />
+            placeholder={locationLink} />                        
+            <Text style ={{
+                    alignItems: 'center',
+                    padding: 10
+                }}>Description:</Text>
+            <TextInput
+            style={{
+                marginLeft: 10,
+                padding: 5,
+                width: '95%',
+                height: 100,
+                backgroundColor: 'white',
+                borderWidth: 1,
+                borderRadius: 10
+            }}
+            onChangeText={setDescription}
+            placeholder={descriptionText} />
+
             <TouchableOpacity onPress={placePickUp} style={{
                 borderRadius: 10,
                 backgroundColor: '#155F30',

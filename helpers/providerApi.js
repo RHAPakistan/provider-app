@@ -1,4 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
+import { concat } from 'react-native-reanimated';
 import { retrySymbolicateLogNow } from 'react-native/Libraries/LogBox/Data/LogBoxData';
 import {API_URL} from "../config.json";
 module.exports = {
@@ -36,7 +37,6 @@ module.exports = {
             //console.log(json);
             
             if (json){
-                console.log(json);
                 await SecureStore.setItemAsync('auth_token',json.token);
                 await SecureStore.setItemAsync('provider_id',json._id);
                 return true
@@ -54,24 +54,26 @@ module.exports = {
     },
 
     createPickup: async (pickup_object) =>{
+        var tok = await SecureStore.getItemAsync("auth_token");
+        var token = concat("Token ",tok);
         const resp = await fetch(API_URL.concat("/api/provider/pickup/register"),{
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'x-access-token': await SecureStore.getItemAsync("auth_token") 
+                'Authorization': "Token  " + tok 
               },
               body: JSON.stringify(pickup_object)
         })
         .then(async (response) => {
-            if (response.status>=500){
+            if (response.status>=400){
                 console.log("Bad request from server at createPickup");
-                return response.text();
+                return false;
             }
             return response.json();
         })            
         .then(async (json) => {
-            // console.log(json);
+            if(!json){return false}
             if (json.alreadyExists){
                 console.log("Pickup already exists");
                 return false
