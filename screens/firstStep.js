@@ -56,7 +56,7 @@ function FirstStep({navigation}) {
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         var dateTime = date+' '+time;
         var pickup_object = {
-            //"provider": provider_id,
+            "provider": provider_id,
             // "admin":"",
             // "volunteer":"",
             "pickupAddress": locationLink,
@@ -71,13 +71,16 @@ function FirstStep({navigation}) {
             "typeOfFood":surplus,
             "status":0
         }
-        var response = await providerApi.createPickup(pickup_object);
+        var [response, pickup_returned] = await providerApi.createPickup(pickup_object);
         console.log(response);
         if(response==true){
+        console.log("Emmiting initiatePickup on socket");
+        socket.emit("initiatePickup", {"message":pickup_returned});
         navigation.navigate('secondstep');
         }else{
             alert("Pickup already exists or some information missing");
         }
+ 
         console.log("Listening for Request Accepted");
         //console.log(socket);
         socket.on("Request Accepted", (data) =>{

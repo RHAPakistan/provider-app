@@ -68,17 +68,17 @@ module.exports = {
         .then(async (response) => {
             if (response.status>=400){
                 console.log("Bad request from server at createPickup");
-                return false;
+                return [false, response.status];
             }
             return response.json();
         })            
         .then(async (json) => {
-            if(!json){return false}
+            if(!json){return [false, false]}
             if (json.alreadyExists){
                 console.log("Pickup already exists");
-                return false
+                return [false, "already exists"]
             }else{
-                return true
+                return [true, json.pickup];
             }
         })
         .catch(async (e) => console.log(e))
