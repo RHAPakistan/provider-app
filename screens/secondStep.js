@@ -4,6 +4,8 @@ import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { styles } from "./styles";
 import ModalDropdown from "react-native-modal-dropdown";
 import { socket } from "../context/socket";
+import ProgressBar from "../components/ProgressBar";
+
 function SecondStep({navigation}) {
 
     const [text, onChangeText] = React.useState("name");
@@ -22,94 +24,8 @@ function SecondStep({navigation}) {
     return ( 
         <ScrollView>
         <SafeAreaView style={styles.containerDashboard}>
-                <View style = {{
-                    flexDirection: "row",
-                    alignSelf: 'center',
-                    marginBottom: 10
-                }}>
-                    
-                    <View
-                    style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        borderWidth: 2,
-                        borderColor:'#155F30',
-                        backgroundColor: "#155F30"
-                    }}
-                    >
-                    <Text
-                    style={{
-                        fontSize: 20,
-                        marginTop: 4,
-                        textAlign: 'center',
-                        color: 'white'
-                    }}>1</Text>
-                    </View>
-                        
-                    <View
-                    style ={{
-                        height: 5,
-                        width: 40,
-                        backgroundColor: 'black',
-                        alignSelf: 'center'
-                    }}
-                    >
-                    </View>
-                    <View
-                    style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        borderWidth: 2,
-                        borderColor:'black',
-                        backgroundColor: "white"
-                    }}
-                    
-                    >
-                    <Text
-                    style={{
-                        fontSize: 20,
-                        marginTop: 4,
-                        textAlign: 'center',
-                        color: '#155F30'
-                    }}>2</Text>
-                    </View>
-                    <View
-                    style ={{
-                        height: 5,
-                        width: 40,
-                        backgroundColor: 'black',
-                        alignSelf: 'center'
-                    }}
-                    >
-                    </View>
-                    <View
-                    style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        borderWidth: 2,
-                        borderColor:'black',
-                        backgroundColor: "white"
-                    }}
-                    >
-                    <Text
-                    style={{
-                        fontSize: 20,
-                        marginTop: 4,
-                        textAlign: 'center',
-                        color: '#155F30'
-                    }}>3</Text>
-                    </View>
-                </View>
-                <Text
-                style={{
-                    fontSize: 20,
-                    alignSelf: 'center',
-                    color: '#155F30',
-                    marginBottom: 10
-                }}>Request has been Received</Text>
+               <ProgressBar active={2} message="Request has been received"/>
+               
             <View style={{
                 alignItems: "flex-start",
                 flexDirection: "row",

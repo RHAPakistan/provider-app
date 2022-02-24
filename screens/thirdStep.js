@@ -5,6 +5,8 @@ import { styles } from "./styles";
 import ModalDropdown from "react-native-modal-dropdown";
 import { useEffect } from "react/cjs/react.development";
 import { socket } from "../context/socket";
+import ProgressBar from "../components/ProgressBar";
+
 function ThirdStep({navigation}) {
 
     const [text, onChangeText] = React.useState("name");
@@ -23,94 +25,9 @@ function ThirdStep({navigation}) {
     }   
     return ( 
         <ScrollView>
-        <SafeAreaView style={styles.containerDashboard}>
-                <View style = {{
-                    flexDirection: "row",
-                    alignSelf: 'center',
-                    marginBottom: 10
-                }}>
-                    
-                    <View
-                    style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        borderWidth: 2,
-                        borderColor:'#155F30',
-                        backgroundColor: "#155F30"
-                    }}
-                    >
-                    <Text
-                    style={{
-                        fontSize: 20,
-                        marginTop: 4,
-                        textAlign: 'center',
-                        color: 'white'
-                    }}>1</Text>
-                    </View>
-                        
-                    <View
-                    style ={{
-                        height: 5,
-                        width: 40,
-                        backgroundColor: 'black',
-                        alignSelf: 'center'
-                    }}
-                    >
-                    </View>
-                    <View
-                    style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        borderWidth: 2,
-                        borderColor:'black',
-                        backgroundColor: "#155F30"
-                    }}
-                    >
-                    <Text
-                    style={{
-                        fontSize: 20,
-                        marginTop: 4,
-                        textAlign: 'center',
-                        color: 'white'
-                    }}>2</Text>
-                    </View>
-                    <View
-                    style ={{
-                        height: 5,
-                        width: 40,
-                        backgroundColor: 'black',
-                        alignSelf: 'center'
-                    }}
-                    >
-                    </View>
-                    <View
-                    style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        borderWidth: 2,
-                        borderColor:'black',
-                        backgroundColor: "white"
-                    }}
-                    >
-                    <Text
-                    style={{
-                        fontSize: 20,
-                        marginTop: 4,
-                        textAlign: 'center',
-                        color: '#155F30'
-                    }}>3</Text>
-                    </View>
-                </View>
-                <Text
-                style={{
-                    fontSize: 20,
-                    alignSelf: 'center',
-                    color: '#155F30',
-                    marginBottom: 10
-                }}>Volunteer is on the way</Text>
+            <SafeAreaView>
+        <ProgressBar active={3} message="Volunteer is on the way"/>
+            
             <View style={{
                 alignItems: "flex-start",
                 flexDirection: "row",

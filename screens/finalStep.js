@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Image, Button, Icon,SafeAreaView, TouchableOpac
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { styles } from "./styles";
 import ModalDropdown from "react-native-modal-dropdown";
+import ProgressBar from "../components/ProgressBar";
+
 function FinalStep({navigation}) {
 
     const [text, onChangeText] = React.useState("name");
@@ -21,93 +23,8 @@ function FinalStep({navigation}) {
     return ( 
         <ScrollView>
         <SafeAreaView style={styles.containerDashboard}>
-                <View style = {{
-                    flexDirection: "row",
-                    alignSelf: 'center',
-                    marginBottom: 10
-                }}>
-                    
-                    <View
-                    style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        borderWidth: 2,
-                        borderColor:'#155F30',
-                        backgroundColor: "#155F30"
-                    }}
-                    >
-                    <Text
-                    style={{
-                        fontSize: 20,
-                        marginTop: 4,
-                        textAlign: 'center',
-                        color: 'white'
-                    }}>1</Text>
-                    </View>
-                        
-                    <View
-                    style ={{
-                        height: 5,
-                        width: 40,
-                        backgroundColor: 'black',
-                        alignSelf: 'center'
-                    }}
-                    >
-                    </View>
-                    <View
-                    style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        borderWidth: 2,
-                        borderColor:'black',
-                        backgroundColor: "#155F30"
-                    }}
-                    >
-                    <Text
-                    style={{
-                        fontSize: 20,
-                        marginTop: 4,
-                        textAlign: 'center',
-                        color: 'white'
-                    }}>2</Text>
-                    </View>
-                    <View
-                    style ={{
-                        height: 5,
-                        width: 40,
-                        backgroundColor: 'black',
-                        alignSelf: 'center'
-                    }}
-                    >
-                    </View>
-                    <View
-                    style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        borderWidth: 2,
-                        borderColor:'black',
-                        backgroundColor: "#155F30"
-                    }}
-                    >
-                    <Text
-                    style={{
-                        fontSize: 20,
-                        marginTop: 4,
-                        textAlign: 'center',
-                        color: 'white'
-                    }}>3</Text>
-                    </View>
-                </View>
-                <Text
-                style={{
-                    fontSize: 20,
-                    alignSelf: 'center',
-                    color: '#155F30',
-                    marginBottom: 10
-                }}>Volunteer has Received the Pickup</Text>
+                <ProgressBar active={4} message="Volunteer has received the pickup" />
+
             <View style={{
                 alignItems: "flex-start",
                 flexDirection: "row",

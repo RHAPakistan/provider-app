@@ -10,6 +10,7 @@ const providerApi = require("../helpers/providerApi.js");
 import * as SecureStore from "expo-secure-store";
 import {SOCKET_URL} from "../config.json";
 import SecondStep from "./secondStep";
+import ProgressBar from "../components/ProgressBar";
 
 function FirstStep({navigation}) {
 
@@ -69,7 +70,8 @@ function FirstStep({navigation}) {
             // "deliveryTime":"",
             "amountOfFood":amountOfFood,
             "typeOfFood":surplus,
-            "status":0
+            "broadcast":true,
+            "status":1
         }
         var [response, pickup_returned] = await providerApi.createPickup(pickup_object);
         console.log(response);
@@ -83,13 +85,13 @@ function FirstStep({navigation}) {
  
         console.log("Listening for Request Accepted");
         //console.log(socket);
-        socket.on("Request Accepted", (data) =>{
+        socket.on("acceptPickup", (data) =>{
             navigation.navigate("thirdstep");
-            socket.off("Request Accepted");
+            socket.off("acceptPickup");
             console.log("Turned off listener for request accepted");
-            socket.on("Food picked", (data)=>{
+            socket.on("foodPicked", (data)=>{
                 navigation.navigate("finalstep");
-                socket.off("Food picked");
+                socket.off("foodPicked");
                 console.log("Turned off listener for food picked");
             })
         });
@@ -98,93 +100,8 @@ function FirstStep({navigation}) {
     return ( 
         <ScrollView>
         <SafeAreaView style={styles.containerDashboard}>
-                <View style = {{
-                    flexDirection: "row",
-                    alignSelf: 'center',
-                    marginBottom: 10
-                }}>
-                    
-                    <View
-                    style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        borderWidth: 2,
-                        borderColor:'#155F30',
-                        backgroundColor: "white"
-                    }}
-                    >
-                    <Text
-                    style={{
-                        fontSize: 20,
-                        marginTop: 4,
-                        textAlign: 'center',
-                        color: '#155F30'
-                    }}>1</Text>
-                    </View>
-                        
-                    <View
-                    style ={{
-                        height: 5,
-                        width: 40,
-                        backgroundColor: 'black',
-                        alignSelf: 'center'
-                    }}
-                    >
-                    </View>
-                    <View
-                    style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        borderWidth: 2,
-                        borderColor:'black',
-                        backgroundColor: "white"
-                    }}
-                    >
-                    <Text
-                    style={{
-                        fontSize: 20,
-                        marginTop: 4,
-                        textAlign: 'center',
-                        color: '#155F30'
-                    }}>2</Text>
-                    </View>
-                    <View
-                    style ={{
-                        height: 5,
-                        width: 40,
-                        backgroundColor: 'black',
-                        alignSelf: 'center'
-                    }}
-                    >
-                    </View>
-                    <View
-                    style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        borderWidth: 2,
-                        borderColor:'black',
-                        backgroundColor: "white"
-                    }}
-                    >
-                    <Text
-                    style={{
-                        fontSize: 20,
-                        marginTop: 4,
-                        textAlign: 'center',
-                        color: '#155F30'
-                    }}>3</Text>
-                    </View>
-                </View>
-                <Text
-                style={{
-                    fontSize: 20,
-                    alignSelf: 'center',
-                    color: '#155F30',
-                    marginBottom: 10
-                }}>Place the Pickup Request</Text>
+                <ProgressBar active={1} message="Place the Pickup Request"/>
+
             <View style={{
                 alignItems: "flex-start",
                 flexDirection: "row",
