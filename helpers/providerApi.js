@@ -2,6 +2,8 @@ import * as SecureStore from 'expo-secure-store';
 import { concat } from 'react-native-reanimated';
 import { retrySymbolicateLogNow } from 'react-native/Libraries/LogBox/Data/LogBoxData';
 import {API_URL} from "../config.json";
+import {SocketContext, socket, initiateSocketConnection} from "../context/socket";
+
 module.exports = {
     //this funtion returns true if the user is valid else false
     //the funtion also adds the token to secure storage as "auth_token"
@@ -39,12 +41,15 @@ module.exports = {
             if (json){
                 await SecureStore.setItemAsync('auth_token',json.token);
                 await SecureStore.setItemAsync('provider_id',json._id);
+                console.log("initiating Socket connection");
+                initiateSocketConnection();
                 return true
             }else{
                 return false
             }
             // const token = await SecureStore.getItemAsync('auth_token');
             // console.log(token);
+            
         })
         .catch((e) => {
             console.log(e);
