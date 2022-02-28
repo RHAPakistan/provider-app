@@ -15,15 +15,15 @@ import ProgressBar from "../components/ProgressBar";
 function FirstStep({navigation}) {
 
     const socket = useContext(SocketContext);
-    const [text, onChangeText] = React.useState("name");
-    const [phone, onChangePhone] = React.useState("phone");
+    const [text, onChangeText] = React.useState("");
+    const [phone, onChangePhone] = React.useState("");
     const [displayText, setDisplayText] = React.useState(text);
     const [displayPhone, setDisplayPhone] = React.useState(text);
     const [editClicked, setEdit] = React.useState('false');
     const [selectedValue, setSelectedValue] = React.useState("biryani");
-    const [descriptionText, setDescription] = React.useState("Add description");
-    const [locationLink, setLocation] = React.useState("paste maps link here or enter address");
-    const [amountOfFood, setAmountOfFood] = React.useState("Enter amount of food");    
+    const [descriptionText, setDescription] = React.useState("");
+    const [locationLink, setLocation] = React.useState("");
+    const [amountOfFood, setAmountOfFood] = React.useState("");    
     const [requestPlaced, setRequestPlaced] = React.useState('false');
     const [surplus, setSurplus] = React.useState("add surplus");
 
@@ -170,7 +170,8 @@ function FirstStep({navigation}) {
                                     borderRadius: 10
                                 }}
                                 onChangeText={onChangeText}
-                                placeholder={text}
+                                placeholder={"Enter name"}
+                                value={text}
                             />
                         </View>
                         <View style={{ alignItems: "flex-start", flexDirection: "row" }}>
@@ -189,7 +190,8 @@ function FirstStep({navigation}) {
                                     borderRadius: 10
                                 }}
                                 onChangeText={onChangePhone}
-                                placeholder={phone}
+                                placeholder={"phone"}
+                                value={phone}
                             />
                         </View>
                     </View>
@@ -273,7 +275,7 @@ function FirstStep({navigation}) {
                 borderRadius: 10
             }}
             onChangeText={setAmountOfFood}
-            placeholder={amountOfFood} />
+            placeholder={"amount of Food"} />
             <Text style ={{
                     alignItems: 'center',
                     padding: 10
@@ -289,7 +291,7 @@ function FirstStep({navigation}) {
                 borderRadius: 10
             }}
             onChangeText={setLocation}
-            placeholder={locationLink} />                        
+            placeholder={"locationLink"} />                        
             <Text style ={{
                     alignItems: 'center',
                     padding: 10
@@ -305,7 +307,7 @@ function FirstStep({navigation}) {
                 borderRadius: 10
             }}
             onChangeText={setDescription}
-            placeholder={descriptionText} />
+            placeholder={"Add description"} />
 
             <TouchableOpacity onPress={placePickUp} style={{
                 borderRadius: 10,

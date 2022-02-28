@@ -11,39 +11,39 @@ import Geolocation from 'react-native-geolocation-service';
 export default function Dashboard({navigation}) {
   
   async function onClick(){
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: "Cool Photo App Camera Permission",
-          message:
-            "Cool Photo App needs access to your camera " +
-            "so you can take awesome pictures.",
-          buttonNeutral: "Ask Me Later",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK"
-        }
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can use the camera");
-        const loc = await Geolocation.getCurrentPosition(
-          (position) => {
-            console.log("abcd");
-            console.log(position);
-          },
-          (error) => {
-            console.log("aaaaaaa");
-            // See error code charts below.
-            console.log(error.code, error.message);
-          },
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-      );
-      } else {
-        console.log("Camera permission denied");
-      }
-    } catch (err) {
-      console.warn(err);
-    }        
+    // try {
+    //   const granted = await PermissionsAndroid.request(
+    //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    //     {
+    //       title: "Cool Photo App Camera Permission",
+    //       message:
+    //         "Cool Photo App needs access to your camera " +
+    //         "so you can take awesome pictures.",
+    //       buttonNeutral: "Ask Me Later",
+    //       buttonNegative: "Cancel",
+    //       buttonPositive: "OK"
+    //     }
+    //   );
+    //   if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+    //     console.log("You can use the camera");
+    //     const loc = await Geolocation.getCurrentPosition(
+    //       (position) => {
+    //         console.log("abcd");
+    //         console.log(position);
+    //       },
+    //       (error) => {
+    //         console.log("aaaaaaa");
+    //         // See error code charts below.
+    //         console.log(error.code, error.message);
+    //       },
+    //       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    //   );
+    //   } else {
+    //     console.log("Camera permission denied");
+    //   }
+    // } catch (err) {
+    //   console.warn(err);
+    // }        
     navigation.navigate('firststep')
   }
   function onClickContact(){
