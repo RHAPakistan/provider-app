@@ -1,25 +1,15 @@
-import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import socketio from "socket.io-client";
 import React from "react";
 import {SOCKET_URL} from "../config.json";
+const localStorage = require("../helpers/localStorage");
 
-// export const socket = socketio.connect(
-//     SOCKET_URL
-// );
-
-// socket.on("request id", async (data)=>{
-//     console.log("received request for provider id");
-//     let prov_id = await SecureStore.getItemAsync("provider_id");
-//     socket.emit("send id",{"_id":prov_id});
-//     socket.off("request id");
-// })
-// console.log("Listening");
 export const socket = socketio.connect(
     SOCKET_URL
 );
 export const initiateSocketConnection = async()=>{
 
-    let prov_id = await SecureStore.getItemAsync("provider_id");
+    let prov_id = await localStorage.getData("provider_id");
     socket.emit("send id",{"_id":prov_id});
     console.log("Listening");
 }

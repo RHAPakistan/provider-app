@@ -7,11 +7,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import io from "socket.io-client";
 import {SocketContext} from '../context/socket';
 const providerApi = require("../helpers/providerApi.js");
-import * as SecureStore from "expo-secure-store";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SOCKET_URL} from "../config.json";
 import SecondStep from "./secondStep";
 import ProgressBar from "../components/ProgressBar";
-
+const localStorage = require("../helpers/localStorage");
 function FirstStep({navigation}) {
 
     const socket = useContext(SocketContext);
@@ -48,10 +48,17 @@ function FirstStep({navigation}) {
     }
 
     const placePickUp = async () =>{
+
+
+        //validation
+        if (locationLink==""){
+            alert("Location link missing, add address details");
+        }else{
+
         setRequestPlaced(!requestPlaced);
         //const socket = io("http://localhost:5000");
         // console.log(socket)
-        var provider_id = await SecureStore.getItemAsync("provider_id");
+        var provider_id = await localStorage.getData("provider_id");
         var today = new Date();
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -95,7 +102,7 @@ function FirstStep({navigation}) {
                 console.log("Turned off listener for food picked");
             })
         });
-
+    }
     }   
     return ( 
         <ScrollView>

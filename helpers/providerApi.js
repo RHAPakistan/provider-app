@@ -1,8 +1,10 @@
-import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { concat } from 'react-native-reanimated';
 import { retrySymbolicateLogNow } from 'react-native/Libraries/LogBox/Data/LogBoxData';
 import {API_URL} from "../config.json";
 import {SocketContext, socket, initiateSocketConnection} from "../context/socket";
+const localStorage = require("../helpers/localStorage");
+
 
 module.exports = {
     //this funtion returns true if the user is valid else false
@@ -39,8 +41,8 @@ module.exports = {
             //console.log(json);
             
             if (json){
-                await SecureStore.setItemAsync('auth_token',json.token);
-                await SecureStore.setItemAsync('provider_id',json._id);
+                await localStorage.storeData('auth_token',json.token);
+                await localStorage.storeData('provider_id',json._id);
                 console.log("initiating Socket connection");
                 initiateSocketConnection();
                 return true
@@ -59,7 +61,7 @@ module.exports = {
     },
 
     createPickup: async (pickup_object) =>{
-        var tok = await SecureStore.getItemAsync("auth_token");
+        var tok = await localStorage.getData("auth_token");
         var token = concat("Token ",tok);
         const resp = await fetch(API_URL.concat("/api/provider/pickup/register"),{
             method: 'POST',

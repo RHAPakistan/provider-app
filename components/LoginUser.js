@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Animated, View, TouchableOpacity, Text, TextInput, StyleSheet, ScrollView, Platform } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { styles } from './styles';
-import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 var providerApi = require("../helpers/providerApi.js");
+const localStorage = require("../helpers/localStorage");
 
 
 const LoginUser = ({ navigation, shutDownModal }) => {

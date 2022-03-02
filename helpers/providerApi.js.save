@@ -37,8 +37,8 @@ module.exports = {
             //console.log(json);
             
             if (json){
-                await SecureStore.setItemAsync('auth_token',json.token);
-                await SecureStore.setItemAsync('provider_id',json._id);
+                await localStorage.setData('auth_token',json.token);
+                await localStorage.setData('provider_id',json._id);
                 return true
             }else{
                 return false
