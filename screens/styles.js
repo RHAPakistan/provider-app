@@ -18,6 +18,14 @@ export const styles = StyleSheet.create({
       paddingLeft: 15,
       paddingRight: 15
     },
+    detailsContainer:{
+      flex: 1,
+      backgroundColor: '#F0F0F0',
+      justifyContent: 'space-between',
+      paddingTop:50,
+      paddingLeft: 15,
+      paddingRight: 15
+    },
     text: {
       color: 'white',
       position: 'absolute',

@@ -43,6 +43,8 @@ module.exports = {
             if (json){
                 await localStorage.storeData('auth_token',json.token);
                 await localStorage.storeData('provider_id',json._id);
+                await localStorage.storeData('name',json.fullName);
+                await localStorage.storeData('phone',json.contactNumber);
                 console.log("initiating Socket connection");
                 initiateSocketConnection();
                 return true

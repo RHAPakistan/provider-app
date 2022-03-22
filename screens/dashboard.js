@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Component } from "react";
 import { StyleSheet, Text, View, Image, Button, PermissionsAndroid,SafeAreaView, TouchableOpacity} from 'react-native';
 import { styles } from "./styles";
@@ -7,51 +7,33 @@ import HomeScreen from "./home";
 import { NavigationContainer } from "@react-navigation/native"; 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Geolocation from 'react-native-geolocation-service';
+import localStorage from "../helpers/localStorage";
+import { concat } from "react-native-reanimated";
+import * as Location from "expo-location";
 
 export default function Dashboard({navigation}) {
+
+  const [name, setName]= useState("Guest");
+  useEffect(()=>{
+    const fetchData = async()=>{
+      const resp = await localStorage.getData("name");
+      return resp;
+    }
+    fetchData()
+    .then((resp)=>{
+      setName(resp);
+    })
+  })
   
-  async function onClick(){
-    // try {
-    //   const granted = await PermissionsAndroid.request(
-    //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    //     {
-    //       title: "Cool Photo App Camera Permission",
-    //       message:
-    //         "Cool Photo App needs access to your camera " +
-    //         "so you can take awesome pictures.",
-    //       buttonNeutral: "Ask Me Later",
-    //       buttonNegative: "Cancel",
-    //       buttonPositive: "OK"
-    //     }
-    //   );
-    //   if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-    //     console.log("You can use the camera");
-    //     const loc = await Geolocation.getCurrentPosition(
-    //       (position) => {
-    //         console.log("abcd");
-    //         console.log(position);
-    //       },
-    //       (error) => {
-    //         console.log("aaaaaaa");
-    //         // See error code charts below.
-    //         console.log(error.code, error.message);
-    //       },
-    //       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-    //   );
-    //   } else {
-    //     console.log("Camera permission denied");
-    //   }
-    // } catch (err) {
-    //   console.warn(err);
-    // }        
-    navigation.navigate('firststep')
+  async function onClick(){        
+        navigation.navigate('firststep')
   }
   function onClickContact(){
     navigation.navigate('contact')
   }
   return ( 
     <SafeAreaView style={styles.containerDashboard}>
-      <Text style={styles.welcome}>Welcome, John Doe</Text>
+      <Text style={styles.welcome}>{"Welcome "+ name}</Text>
       <TouchableOpacity onPress={onClick} style={styles.createPickUpRequest}>
         <Image style={{ borderRadius: 20 }} source={require('../assets/pickupreq.png')} />
         <View >

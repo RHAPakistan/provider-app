@@ -37,22 +37,28 @@ export default function Drawer() {
   }
   return (
     <RootDrawerNavigator.Navigator
-     initialRouteName="Dashboard"  
-     screenOptions={DrawerStyles}
-     drawerContent={(props) => <CustomDrawerContent {...props}/>}>
-      <RootDrawerNavigator.Screen 
-      name='Dashboard' component={DashStack}
-      options={{headerShown:false}}
-       />
-      <RootDrawerNavigator.Screen 
-      name='History' component={History}
-      options={{headerShown: false}} />
+      initialRouteName="Dashboard"
+      screenOptions={DrawerStyles}
+      drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <RootDrawerNavigator.Screen
-       name='Settings' component={Settings_screen}
-       options={{headerShown: false}} />
+        name='Dashboard' component={DashStack}
+        options={{ headerShown: false }}
+      />
+      {/* <RootDrawerNavigator.Screen
+        name='History' component={History}
+        options={({ navigation }) => {
+          return PrimaryHeader(navigation, "History");
+        }} />
       <RootDrawerNavigator.Screen
-       name='Support' component={Support}
-       options={{headerShown: false}} />
+        name='Settings' component={Settings_screen}
+        options={({ navigation }) => {
+          return PrimaryHeader(navigation, "Settings");
+        }} />
+      <RootDrawerNavigator.Screen
+        name='Support' component={Support}
+        options={({ navigation }) => {
+          return PrimaryHeader(navigation, "Support");
+        }} /> */}
     </RootDrawerNavigator.Navigator>
 
   );

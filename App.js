@@ -21,7 +21,7 @@ export default class App extends Component {
             <Stack.Screen
               name="Home"
               component={HomeScreen}
-              options={{ title: 'Home' }, { headerShown: false }}
+              options={{ title: 'Home', headerShown: false }}
             />
             <Stack.Screen
               name="Drawer"

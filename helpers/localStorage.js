@@ -23,6 +23,9 @@ module.exports ={
         // error reading value
         console.log(key, " not found in local storage");
         }      
-    }    
+    },
+    clearAsyncStorage: async() => {
+        AsyncStorage.clear();
+    }
 
 }

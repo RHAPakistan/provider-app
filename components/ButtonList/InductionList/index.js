@@ -1,0 +1,26 @@
+import React from 'react';
+import { FlatList, View } from 'react-native';
+
+import InductionButton from './InductionButton';
+
+import styles from '../styles';
+
+const InductionList = ({ onPress, data }) => {
+	// fetch data here
+
+	const renderItem = ({ item }) => (
+		<InductionButton data={item} onPress={onPress} />
+	);
+
+	return (
+		<View style={styles.list}>
+			<FlatList
+				data={data}
+				renderItem={renderItem}
+				keyExtractor={(item) => item.id}
+			/>
+		</View>
+	);
+};
+
+export default InductionList;
