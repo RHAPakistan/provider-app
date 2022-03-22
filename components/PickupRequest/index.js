@@ -2,12 +2,11 @@ import React, { useContext, useEffect } from "react";
 import { StyleSheet, Text, View, Image, Button, Icon, SafeAreaView, TouchableOpacity, Picker } from 'react-native';
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import styles from "./styles";
-import { SocketContext } from '../../context/socket';
 import localStorage from "../../helpers/localStorage";
 import providerApi from "../../helpers/providerApi";
+import socketHelpers from "../../helpers/socketHelpers";
 
 const PickupRequest = ({navigation}) => {
-    const socket = useContext(SocketContext);
     const [text, onChangeText] = React.useState("");
     const [phone, onChangePhone] = React.useState("");
     const [displayText, setDisplayText] = React.useState(text);
@@ -47,8 +46,6 @@ const PickupRequest = ({navigation}) => {
         } else {
 
             setRequestPlaced(!requestPlaced);
-            //const socket = io("http://localhost:5000");
-            // console.log(socket)
             var provider_id = await localStorage.getData("provider_id");
             var today = new Date();
             var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -75,26 +72,15 @@ const PickupRequest = ({navigation}) => {
             console.log(response);
             if (response == true) {
                 console.log("Emmiting initiatePickup on socket");
-                socket.emit("initiatePickup", { "message": pickup_returned });
-                var pickup_object_send = {...pickup_object};
-                pickup_object_send["name"] = name;
-                navigation.navigate('secondstep', {pickup: pickup_object_send});
+                console.log("pickup returned", pickup_returned);
+                socketHelpers.initiate_pickup(navigation, pickup_object, pickup_returned,name);
             } else {
                 alert("Pickup already exists or some information missing");
             }
-
             console.log("Listening for Request Accepted");
-            //console.log(socket);
-            socket.on("acceptPickup", (data) => {
-                navigation.navigate("thirdstep");
-                socket.off("acceptPickup");
-                console.log("Turned off listener for request accepted");
-                socket.on("foodPicked", (data) => {
-                    navigation.navigate("finalstep");
-                    socket.off("foodPicked");
-                    console.log("Turned off listener for food picked");
-                })
-            });
+            //listen for request accepted.
+            socketHelpers.place_pickup(navigation);
+
         }
     }
     return (

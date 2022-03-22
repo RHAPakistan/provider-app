@@ -33,13 +33,6 @@ module.exports = {
         })
         .then(async (json) => {
             console.log("succesful network request");
-            // console.log(json.status);
-            // if (response.status==200){
-            //     console.log("200")
-            //     var json = await response.json()
-            // }
-            //console.log(json);
-            
             if (json){
                 await localStorage.storeData('auth_token',json.token);
                 await localStorage.storeData('provider_id',json._id);
@@ -51,8 +44,6 @@ module.exports = {
             }else{
                 return false
             }
-            // const token = await SecureStore.getItemAsync('auth_token');
-            // console.log(token);
             
         })
         .catch((e) => {

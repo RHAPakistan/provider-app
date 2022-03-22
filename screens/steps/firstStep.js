@@ -2,14 +2,12 @@ import React, { useContext } from "react";
 import { StyleSheet, Text, View, Image, Button, Icon, SafeAreaView, TouchableOpacity, Picker } from 'react-native';
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { styles } from "../styles";
-import { SocketContext } from '../../context/socket';
 import ProgressBar from "../../components/ProgressBar";
 import GlobalStyles from "../../styles/GlobalStyles";
 import PickupRequest from "../../components/PickupRequest/index";
 
 function FirstStep({ navigation }) {
 
-    const socket = useContext(SocketContext);
     const [text, onChangeText] = React.useState("");
     const [phone, onChangePhone] = React.useState("");
     const [displayText, setDisplayText] = React.useState(text);

@@ -4,7 +4,6 @@ import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { styles } from "../styles";
 import ModalDropdown from "react-native-modal-dropdown";
 import { useEffect } from "react/cjs/react.development";
-import {SocketContext} from '../../context/socket'
 import ProgressBar from "../../components/ProgressBar";
 import GlobalStyles from "../../styles/GlobalStyles";
 import PickupDetails from "../../components/detailsForm/PickupDetails";
@@ -28,11 +27,12 @@ function ThirdStep({route, navigation}) {
 		BOOKING_TIME: pickup.placementTime,
 		// COMPLETION_TIME: '{COMPLETION_TIME}',
 		// CANCELLATION_TIME: '{CANCELLATION_TIME}',
-		CONTACT_NAME: pickup.name,
-		CONTACT_PHONE: pickup.phone,
+		CONTACT_NAME: pickup.name?pickup.name:pickup.fullName,
+		CONTACT_PHONE: pickup.phone?pickup.phone:pickup.contactNumber,
 		PICKUP_LOCATION: pickup.pickupAddress,
 		SURPLUS_TYPE: pickup.typeOfFood,
-		DESCRIPTION: pickup.description
+		DESCRIPTION: pickup.description,
+        VOLUNTEER: pickup.volunteer?pickup.volunteer:null
 	};
     const cancelPickUp = () =>{
         navigation.navigate("firststep");

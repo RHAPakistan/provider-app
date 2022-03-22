@@ -30,21 +30,6 @@ const PickupDetails = ({ data }) => {
 		) : null;
 	indexOffset = CompletionLine ? 1 : 0;
 
-	// let ProviderLine =
-	// 	data.PROVIDER.type === 'Registered' ? (
-	// 		<TextLineClickable
-	// 			index={indexOffset + 3}
-	// 			label='Vendor Name'
-	// 			value={data.PROVIDER.name}
-	// 			action={data.PROVIDER.action}
-	// 		/>
-	// 	) : (
-	// 		<TextLine
-	// 			index={indexOffset + 3}
-	// 			label='Vendor Type'
-	// 			value={data.PROVIDER.type}
-	// 		/>
-	// 	);
 	return (
 		<View>
 			{/* Booking Time: When Pickup is created */}
@@ -68,8 +53,12 @@ const PickupDetails = ({ data }) => {
 				action={() => console.log('Phone Number Clicked')}
 			/>
 
-			
-
+			{/* Volunteer Name */}
+			<TextLine
+				index={indexOffset + 3}
+				label='Volunteer Name'
+				value={data.VOLUNTEER}
+			/>
 
 			{/* vendor/provider name or Type if Guest */}
 			{/* {ProviderLine} */}
