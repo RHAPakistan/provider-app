@@ -66,7 +66,7 @@ const PickupRequest = ({navigation}) => {
                 "amountOfFood": amountOfFood,
                 "typeOfFood": surplus,
                 "broadcast": true,
-                "status": 1
+                "status": 0
             }
             var [response, pickup_returned] = await providerApi.createPickup(pickup_object);
             console.log(response);
