@@ -5,8 +5,10 @@ import styles from "./styles";
 import localStorage from "../../helpers/localStorage";
 import providerApi from "../../helpers/providerApi";
 import socketHelpers from "../../helpers/socketHelpers";
+import OptionsDropdown from "../OptionsDropdown/index";
+import ActionBox from "../ActionBox/index";
 
-const PickupRequest = ({navigation}) => {
+const PickupRequest = ({ navigation }) => {
     const [text, onChangeText] = React.useState("");
     const [phone, onChangePhone] = React.useState("");
     const [displayText, setDisplayText] = React.useState(text);
@@ -73,7 +75,7 @@ const PickupRequest = ({navigation}) => {
             if (response == true) {
                 console.log("Emmiting initiatePickup on socket");
                 console.log("pickup returned", pickup_returned);
-                socketHelpers.initiate_pickup(navigation, pickup_object, pickup_returned,name);
+                socketHelpers.initiate_pickup(navigation, pickup_object, pickup_returned, name);
             } else {
                 alert("Pickup already exists or some information missing");
             }
@@ -117,22 +119,22 @@ const PickupRequest = ({navigation}) => {
 
             </View>
 
+            <View style={{ flexDirection: "row" }}>
                 <Text style={styles.headingText}>Type Of Surplus:</Text>
 
-                <TextInput
-                    style={styles.textBox}
-                    onChangeText={setSurplus}
-                    placeholder={"surplus"}
-                />
-
-            <Text style={{
+                <OptionsDropdown
+                    options={["restaurant", "office", "marriage hall"]}
+                    value={surplus}
+                    setSelectedValue={setSurplus} />
+            </View>
+            {/* <Text style={{
                 alignItems: 'center',
                 padding: 10
             }}>Amount of food:</Text>
             <TextInput
                 style={styles.textBox}
                 onChangeText={setAmountOfFood}
-                placeholder={"amount of Food"} />
+                placeholder={"amount of Food"} /> */}
             <Text style={{
                 alignItems: 'center',
                 padding: 10
@@ -140,7 +142,7 @@ const PickupRequest = ({navigation}) => {
             <TextInput
                 style={styles.textBox}
                 onChangeText={setLocation}
-                placeholder={"locationLink"} />
+                placeholder={"Please paste the maps link for pickup location"} />
             <Text style={{
                 alignItems: 'center',
                 padding: 10
@@ -148,11 +150,19 @@ const PickupRequest = ({navigation}) => {
             <TextInput
                 style={styles.descriptionBox}
                 onChangeText={setDescription}
-                placeholder={"Add description"} />
-
-            <TouchableOpacity onPress={placePickUp} style={styles.placePickupButton}>
-                <Text style={{ color: 'white' }}>Place Pickup Request</Text>
-            </TouchableOpacity>
+                placeholder={"Add description of food and other details you deem important \nExample\nbiryani -> 2kgs\nqourma-> 5kgs"} />
+            <View style={{flex: 1, alignItems:"center"}}>
+            <ActionBox 
+            action= {placePickUp}
+            type= "primary"
+            title= "Place Pickup Request"
+            />
+            <ActionBox 
+            action= {placePickUp}
+            type= "primary"
+            title= "Place Pickup Request"
+            />
+            </View>
         </View>
     )
 }

@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     headingText: {
         alignItems: 'center',
         padding: 10,
+        paddingTop:15,
         marginTop: 5
     },
     foodInfo: {
