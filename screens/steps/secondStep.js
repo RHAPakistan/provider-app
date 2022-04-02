@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View, Image, Button, Icon, SafeAreaView, TouchableOpacity, Picker } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, Icon, SafeAreaView, Alert } from 'react-native';
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { styles } from "../styles";
 import ProgressBar from "../../components/ProgressBar";
@@ -11,11 +11,12 @@ import socketHelpers from "../../helpers/socketHelpers";
 import { socket } from "../../context/socket";
 function SecondStep({ route, navigation }) {
 
-    const pickup = route.params.pickup ? route.params.pickup : {};
+    const [pickup, setPickup] = React.useState(route.params.pickup ? route.params.pickup : {});
     const name = route.params.name?route.params.name:"none";
     const [text, onChangeText] = React.useState("name");
     const [progressCount, setProgressCount] = React.useState(2);
-    const [heading, setHeading] = React.useState("Request has been received")
+    const [heading, setHeading] = React.useState("Finding a volunteer");
+    const [title, setTitle] = React.useState("Second Step");
     const [phone, onChangePhone] = React.useState("phone");
     const [displayText, setDisplayText] = React.useState(text);
     const [displayPhone, setDisplayPhone] = React.useState(text);
@@ -24,36 +25,63 @@ function SecondStep({ route, navigation }) {
     const [descriptionText, setDescription] = React.useState("Add description");
     const [locationLink, setLocation] = React.useState("paste maps link here or enter address");
     const [requestPlaced, setRequestPlaced] = React.useState('false');
-    
-    
-    useEffect(()=>{
 
-        socket.emit("initiatePickup", { "message": pickup });
-        socket.on("acceptPickup", (data) => {
-            console.log("accept pickup data => ", data);
-            navigation.navigate("thirdstep", {pickup: data.message});
-            // socket.off("acceptPickup");
-            console.log("Turned off listener for request accepted");
-            socket.on("foodPicked", (data) => {
-                console.log("Food picked data=>", data);
-                navigation.navigate("finalstep", {pickup: data.message});
-                // socket.off("foodPicked");
-                console.log("Turned off listener for food picked");
+    useEffect(() => {
+
+		const onMount = navigation.addListener('focus', () => {
+
+			// The screen is focused
+			// Call any action and update data
+            socket.emit("initiatePickup", { "message": pickup });
+            socket.on("acceptPickup", (data) => {
+                console.log("accept pickup data => ", data);
+                // navigation.navigate("thirdstep", {pickup: data.message});
+                setProgressCount((prevState)=> prevState+1);
+                setHeading("Volunteer is on the way");
+                setTitle("Third Step");
+                setPickup(data.message);
+                // socket.off("acceptPickup");
+                console.log("Turned off listener for request accepted");
+                socket.on("foodPicked", (data) => {
+                    console.log("Food picked data=>", data);
+                    // navigation.navigate("finalstep", {pickup: data.message});
+                    setProgressCount((prevState)=> prevState+1);
+                    setHeading("Pickup Finished");
+                    setTitle("Final Step");
+                    setPickup(data.message);
+                })
+            });
+            
+            socket.on("informCancelPickup",(socket_data)=>{
+                console.log("pickup cancelled",socket_data);
+                Alert.alert(
+                    `Pickup cancelled by ${socket_data.role}`,
+                    "Abort the journey",
+                    [
+                        {
+                            text:"Ok, go back to first step",
+                            onPress: ()=>{navigation.navigate("firststep")}
+                        }   
+                    ]
+                )
             })
-        });
-        
-        socket.on("informCancelPickup",(socket_data)=>{
-            console.log("pickup cancelled",socket_data);
-            if(socket_data.status==2){
-            navigation.navigate("secondstep", {pickup:pickup, name:name});
-            }
-        })
-        return () =>{
+		});
+
+		const onUnmount = navigation.addListener('blur', ()=>{
+			console.log("turning off sockets => acceptPickup | foodPicked");
             socket.off("acceptPickup");
             socket.off("foodPicked");
-        }
+            socket.off("informCancelPickup");
+		});
+		const unsub = () => {
+			console.log("remove all listeners");
+			onMount();
+			onUnmount();
 
-    },[])
+		}
+		// Return the function to unsubscribe from the event so it gets removed on unmount
+		return () => unsub();
+	}, [navigation])
     // Process Data Here
 
     const data = {
@@ -70,11 +98,37 @@ function SecondStep({ route, navigation }) {
         socketHelpers.cancel_pickup(pickup, 0, "provider");
         navigation.navigate("firststep");
     }
+    const ButtonRender = (props) => {
+
+        if (props.progressCount <4) {
+            return (
+                <View>
+                <ActionBox
+                    type="cancel"
+                    title="Cancel Pickup"
+                    action={cancelPickUp}
+                />
+                <ActionBox
+                    type= "primary"
+                    title="Contact Volunteer"
+                    action = {()=>{console.log("contact volunteer pressed")}}
+                />
+                </View>
+            );
+        }
+        else if (props.progressCount == 4) {
+            return <ActionBox
+            type= "primary"
+            title="Go to Dashboard"
+            action = {()=>{navigation.navigate("dashboard")}}
+            />
+                }
+    }
     return (
         <ScrollView>
             <SafeAreaView style={styles.detailsContainer}>
                 <View style={GlobalStyles.screenTitle}>
-                    <Text style={GlobalStyles.screenTitleText}>Second Step</Text>
+                    <Text style={GlobalStyles.screenTitleText}>{title}</Text>
                 </View>
                 <ProgressBar active={progressCount} message={heading} />
                 <View style={{
@@ -91,16 +145,15 @@ function SecondStep({ route, navigation }) {
                     <PickupDetails data={data} />
                 </View>
 
-                <ActionBox
-                    type="cancel"
-                    title="Cancel Pickup"
-                    action={cancelPickUp}
-                />
-                <ActionBox
+
+                <ButtonRender progressCount={progressCount} />
+
+
+                {/* <ActionBox
                     type="primary"
                     title="Go ahead (interim)"
                     action={() => { navigation.navigate("thirdstep", route.params) }}
-                />
+                /> */}
 
 
             </SafeAreaView>

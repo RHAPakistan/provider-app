@@ -9,8 +9,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Dashboard from "./dashboard";
 import FirstStep from "./steps/firstStep";
 import SecondStep from "./steps/secondStep";
-import ThirdStep from "./steps/thirdStep";
-import FinalStep from "./steps/finalStep";
 import Contact from "./contact";
 import PrimaryHeader from "../components/ScreenHeaders/PrimaryHeader";
 
@@ -39,7 +37,7 @@ export default function DashStack({ navigation }) {
                 options={{headerShown:false}} 
                 
             />
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="thirdstep"
                 component={ThirdStep}
                 options={{headerShown:false}} 
@@ -48,7 +46,7 @@ export default function DashStack({ navigation }) {
                 name="finalstep"
                 component={FinalStep}
                 options={{headerShown:false}} 
-            />
+            /> */}
             <Stack.Screen
                 name="contact"
                 component={Contact}
