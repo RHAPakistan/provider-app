@@ -32,6 +32,7 @@ function SecondStep({ route, navigation }) {
 
 			// The screen is focused
 			// Call any action and update data
+            console.log("turning on: acceptpickup, informCancelPickup")
             socket.emit("initiatePickup", { "message": pickup });
             socket.on("acceptPickup", (data) => {
                 console.log("accept pickup data => ", data);
@@ -53,7 +54,7 @@ function SecondStep({ route, navigation }) {
             });
             
             socket.on("informCancelPickup",(socket_data)=>{
-                console.log("pickup cancelled",socket_data);
+                console.log("pickup cancelled");
                 Alert.alert(
                     `Pickup cancelled by ${socket_data.role}`,
                     "Abort the journey",
@@ -68,7 +69,13 @@ function SecondStep({ route, navigation }) {
 		});
 
 		const onUnmount = navigation.addListener('blur', ()=>{
-			console.log("turning off sockets => acceptPickup | foodPicked");
+			console.log("turning off sockets => acceptPickup | foodPicked, informCancelPickup");
+            socket.off("acceptPickup");
+            socket.off("foodPicked");
+            socket.off("informCancelPickup");
+		});
+        const onUnmountBefore = navigation.addListener('beforeRemove', ()=>{
+			console.log("turning off sockets => acceptPickup | foodPicked, informCancelPickup");
             socket.off("acceptPickup");
             socket.off("foodPicked");
             socket.off("informCancelPickup");
@@ -77,6 +84,7 @@ function SecondStep({ route, navigation }) {
 			console.log("remove all listeners");
 			onMount();
 			onUnmount();
+            onUnmountBefore();
 
 		}
 		// Return the function to unsubscribe from the event so it gets removed on unmount
