@@ -13,6 +13,7 @@ function FirstStep({ navigation }) {
     const [displayText, setDisplayText] = React.useState(text);
     const [displayPhone, setDisplayPhone] = React.useState(text);
     const [editClicked, setEdit] = React.useState('false');
+    const [progressCount, setProgressCount] = React.useState(1);
     const [selectedValue, setSelectedValue] = React.useState("biryani");
     const [descriptionText, setDescription] = React.useState("");
     const [locationLink, setLocation] = React.useState("");
@@ -48,7 +49,7 @@ function FirstStep({ navigation }) {
                 <View style={GlobalStyles.screenTitle}>
                     <Text style={GlobalStyles.screenTitleText}>First Step</Text>
                 </View>
-                <ProgressBar active={1} message="Place the Pickup Request" />
+                <ProgressBar active={progressCount} message="Place the Pickup Request" />
 
 
             </SafeAreaView>

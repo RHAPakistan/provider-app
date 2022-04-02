@@ -8,10 +8,12 @@ import ProgressBar from "../../components/ProgressBar";
 import GlobalStyles from "../../styles/GlobalStyles";
 import PickupDetails from "../../components/detailsForm/PickupDetails";
 import ActionBox from "../../components/ActionBox";
+import socketHelpers from "../../helpers/socketHelpers";
 
 function ThirdStep({route, navigation}) {
 
     const pickup = route.params.pickup?route.params.pickup:{};
+    const name = route.params.name?route.params.name:"none";
     const [text, onChangeText] = React.useState("name");
     const [phone, onChangePhone] = React.useState("phone");
     const [displayText, setDisplayText] = React.useState(text);
@@ -21,7 +23,6 @@ function ThirdStep({route, navigation}) {
     const [descriptionText, setDescription] = React.useState("Add description");
     const [locationLink, setLocation] = React.useState("paste maps link here or enter address");
     const [requestPlaced, setRequestPlaced] = React.useState('false');
-    const [name, setName] = React.useState("none");
 
 	const data = {
 		BOOKING_TIME: pickup.placementTime,
@@ -35,6 +36,7 @@ function ThirdStep({route, navigation}) {
         VOLUNTEER: pickup.volunteer?pickup.volunteer:null
 	};
     const cancelPickUp = () =>{
+        socketHelpers.cancel_pickup(pickup, 1, "provider");
         navigation.navigate("firststep");
     }   
     return ( 
@@ -67,6 +69,11 @@ function ThirdStep({route, navigation}) {
             <ActionBox
                 type= "primary"
                 title="Contact Volunteer"
+                action = {()=>{console.log("contact volunteer pressed")}}
+            />
+            <ActionBox
+                type= "cancel"
+                title="Cancel Pickup"
                 action = {cancelPickUp}
             />
             <ActionBox

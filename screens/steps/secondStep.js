@@ -7,11 +7,15 @@ import GlobalStyles from "../../styles/GlobalStyles";
 import PickupDetails from "../../components/detailsForm/PickupDetails";
 import localStorage from "../../helpers/localStorage";
 import ActionBox from "../../components/ActionBox/index";
-
+import socketHelpers from "../../helpers/socketHelpers";
+import { socket } from "../../context/socket";
 function SecondStep({ route, navigation }) {
 
     const pickup = route.params.pickup ? route.params.pickup : {};
+    const name = route.params.name?route.params.name:"none";
     const [text, onChangeText] = React.useState("name");
+    const [progressCount, setProgressCount] = React.useState(2);
+    const [heading, setHeading] = React.useState("Request has been received")
     const [phone, onChangePhone] = React.useState("phone");
     const [displayText, setDisplayText] = React.useState(text);
     const [displayPhone, setDisplayPhone] = React.useState(text);
@@ -20,20 +24,50 @@ function SecondStep({ route, navigation }) {
     const [descriptionText, setDescription] = React.useState("Add description");
     const [locationLink, setLocation] = React.useState("paste maps link here or enter address");
     const [requestPlaced, setRequestPlaced] = React.useState('false');
-    const [name, setName] = React.useState("none");
+    
+    
+    useEffect(()=>{
+
+        socket.emit("initiatePickup", { "message": pickup });
+        socket.on("acceptPickup", (data) => {
+            console.log("accept pickup data => ", data);
+            navigation.navigate("thirdstep", {pickup: data.message});
+            // socket.off("acceptPickup");
+            console.log("Turned off listener for request accepted");
+            socket.on("foodPicked", (data) => {
+                console.log("Food picked data=>", data);
+                navigation.navigate("finalstep", {pickup: data.message});
+                // socket.off("foodPicked");
+                console.log("Turned off listener for food picked");
+            })
+        });
+        
+        socket.on("informCancelPickup",(socket_data)=>{
+            console.log("pickup cancelled",socket_data);
+            if(socket_data.status==2){
+            navigation.navigate("secondstep", {pickup:pickup, name:name});
+            }
+        })
+        return () =>{
+            socket.off("acceptPickup");
+            socket.off("foodPicked");
+        }
+
+    },[])
     // Process Data Here
 
     const data = {
         BOOKING_TIME: pickup.placementTime,
         // COMPLETION_TIME: '{COMPLETION_TIME}',
         // CANCELLATION_TIME: '{CANCELLATION_TIME}',
-        CONTACT_NAME: pickup.name,
+        CONTACT_NAME: name,
         CONTACT_PHONE: pickup.phone,
         PICKUP_LOCATION: pickup.pickupAddress,
         SURPLUS_TYPE: pickup.typeOfFood,
         DESCRIPTION: pickup.description
     };
     const cancelPickUp = () => {
+        socketHelpers.cancel_pickup(pickup, 0, "provider");
         navigation.navigate("firststep");
     }
     return (
@@ -42,7 +76,7 @@ function SecondStep({ route, navigation }) {
                 <View style={GlobalStyles.screenTitle}>
                     <Text style={GlobalStyles.screenTitleText}>Second Step</Text>
                 </View>
-                <ProgressBar active={2} message="Request has been received" />
+                <ProgressBar active={progressCount} message={heading} />
                 <View style={{
                     alignItems: "flex-start",
                     flexDirection: "row",
@@ -65,7 +99,7 @@ function SecondStep({ route, navigation }) {
                 <ActionBox
                     type="primary"
                     title="Go ahead (interim)"
-                    action={() => { navigation.navigate("thirdstep", { pickup: pickup }) }}
+                    action={() => { navigation.navigate("thirdstep", route.params) }}
                 />
 
 

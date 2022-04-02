@@ -73,15 +73,16 @@ const PickupRequest = ({ navigation }) => {
             var [response, pickup_returned] = await providerApi.createPickup(pickup_object);
             console.log(response);
             if (response == true) {
-                console.log("Emmiting initiatePickup on socket");
-                console.log("pickup returned", pickup_returned);
-                socketHelpers.initiate_pickup(navigation, pickup_object, pickup_returned, name);
+                navigation.navigate('secondstep', {pickup: pickup_returned,name:name}); 
+                // console.log("Emmiting initiatePickup on socket");
+                // console.log("pickup returned", pickup_returned);
+                // socketHelpers.initiate_pickup(navigation, pickup_object, pickup_returned, name);
             } else {
                 alert("Pickup already exists or some information missing");
             }
             console.log("Listening for Request Accepted");
             //listen for request accepted.
-            socketHelpers.place_pickup(navigation);
+            // socketHelpers.place_pickup(navigation);
 
         }
     }

@@ -19,10 +19,13 @@ module.exports={
     },
 
     initiate_pickup: async (navigation, pickup_object, pickup_returned, name) =>{
-        console.log("-=-------", pickup_returned);
         socket.emit("initiatePickup", { "message": pickup_returned });
         var pickup_object_send = {...pickup_object};
         pickup_object_send["name"] = name;
-        navigation.navigate('secondstep', {pickup: pickup_object_send});       
+        navigation.navigate('secondstep', {pickup: pickup_returned,name:name});       
+    },
+
+    cancel_pickup: async(pickup_object, status, role)=>{
+        socket.emit("cancelPickup", {pickup:pickup_object, status:status, role: role});
     }
 }
