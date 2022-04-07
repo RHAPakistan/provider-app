@@ -3,6 +3,8 @@ import { concat } from 'react-native-reanimated';
 import { retrySymbolicateLogNow } from 'react-native/Libraries/LogBox/Data/LogBoxData';
 import {API_URL} from "../config.json";
 import {SocketContext, socket, initiateSocketConnection} from "../context/socket";
+import * as Device from 'expo-device';
+import * as Notifications from "expo-notifications";
 const localStorage = require("../helpers/localStorage");
 
 
@@ -40,6 +42,34 @@ module.exports = {
                 await localStorage.storeData('phone',json.contactNumber);
                 console.log("initiating Socket connection");
                 initiateSocketConnection();
+                if (Device.isDevice) {
+                    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+                    let finalStatus = existingStatus;
+                    if (existingStatus !== 'granted') {
+                      const { status } = await Notifications.requestPermissionsAsync();
+                      finalStatus = status;
+                    }
+                    if (finalStatus !== 'granted') {
+                      alert('Failed to get push token for push notification!');
+                      return;
+                    }
+                    const token = (await Notifications.getExpoPushTokenAsync()).data;
+                    console.log(token);
+                    // this.setState({ expoPushToken: token });
+                    let uid = await localStorage.getData("provider_id");
+                    module.exports.send_push_token(uid,token);
+                  } else {
+                    alert('Must use physical device for Push Notifications');
+                  }
+                
+                  if (Platform.OS === 'android') {
+                    Notifications.setNotificationChannelAsync('default', {
+                      name: 'default',
+                      importance: Notifications.AndroidImportance.MAX,
+                      vibrationPattern: [0, 250, 250, 250],
+                      lightColor: '#FF231F7C',
+                    });
+                  }
                 return true
             }else{
                 return false
@@ -83,5 +113,33 @@ module.exports = {
         })
         .catch(async (e) => console.log(e))
         return resp;
-    }
+    },
+    send_push_token: async(userId, pushToken)=>{
+        const token = await localStorage.getData('auth_token');
+        const resp = await fetch(API_URL.concat(`/api/admin/notifications/login`), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer " + token
+            },
+            body: JSON.stringify({
+                userId: userId,
+                token: pushToken,
+                userType: "provider"
+            })
+        })
+        .then((response)=>{
+            return response.json();
+        })
+        .then((json)=>{
+            console.log(json);
+            return json;
+        })
+        .catch((e) =>{
+            console.log(e);
+            console.log("error");
+        })
+        return resp;
+    }       
 }
