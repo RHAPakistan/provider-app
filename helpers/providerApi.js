@@ -114,6 +114,35 @@ module.exports = {
         .catch(async (e) => console.log(e))
         return resp;
     },
+    get_my_pickups:async (query) =>{
+        var query_string = API_URL.concat("/api/admin/pickup?");
+        // query_string = query?query_string.concat(`?status=${query.status?query.status:0}`):query_string;
+        // console.log(query_string);
+        const id = await localStorage.getData('provider_id');
+        for(const key in query){
+            query_string = query_string.concat(`${key}=${query[key]}&`);
+        }
+        query_string = query_string.concat(`provider=${id}`);
+        console.log(query_string);
+        const resp = await fetch(query_string, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response)=>{
+            return response.json();
+        })
+        .then((json)=>{
+            return json;
+        })
+        .catch((e) =>{
+            console.log(e);
+            console.log("error");
+        })
+    return resp;
+    },
     send_push_token: async(userId, pushToken)=>{
         const token = await localStorage.getData('auth_token');
         const resp = await fetch(API_URL.concat(`/api/admin/notifications/login`), {

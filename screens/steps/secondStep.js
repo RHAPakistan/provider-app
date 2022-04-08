@@ -9,6 +9,7 @@ import localStorage from "../../helpers/localStorage";
 import ActionBox from "../../components/ActionBox/index";
 import socketHelpers from "../../helpers/socketHelpers";
 import { socket } from "../../context/socket";
+import providerApi from "../../helpers/providerApi";
 function SecondStep({ route, navigation }) {
 
     const [pickup, setPickup] = React.useState(route.params.pickup ? route.params.pickup : {});
@@ -29,6 +30,34 @@ function SecondStep({ route, navigation }) {
     useEffect(() => {
 
 		const onMount = navigation.addListener('focus', () => {
+
+            //get recent data of the pickup
+            const fetchDataFromApi = async()=>{
+                var current_pickup = (await providerApi.get_my_pickups({_id:pickup._id})).pickups[0];
+                return current_pickup;
+            }
+            fetchDataFromApi()
+            .then((response)=>{
+                setPickup(response);
+                if(pickup.status==0 || pickup.status==1){
+                    setProgressCount(2)
+                }
+                else if(pickup.status==2){
+                    setProgressCount(3)
+                    setHeading("Volunteer is on the way");
+                    setTitle("Third Step");
+                }
+                else if(pickup.status==3 || pickup.status==4){
+                    setHeading("Pickup Finished");
+                    setTitle("Final Step");
+                    setProgressCount(4);
+                }
+                else if(pickup.status==5){
+                    setHeading("Pickup Cancelled");
+                    setTitle("Final Step");
+                    setProgressCount(4);
+                }
+            })
 
 			// The screen is focused
 			// Call any action and update data

@@ -19,7 +19,7 @@ const PickupRequest = ({ navigation }) => {
     const [locationLink, setLocation] = React.useState("");
     const [amountOfFood, setAmountOfFood] = React.useState("");
     const [requestPlaced, setRequestPlaced] = React.useState('false');
-    const [surplus, setSurplus] = React.useState("");
+    const [surplus, setSurplus] = React.useState("Restaurant");
     const [name, setName] = React.useState("none");
 
     useEffect(() => {
