@@ -40,4 +40,18 @@ export const styles = StyleSheet.create({
         paddingLeft: 10,
         color: '#FFFFFF',
     },
+    container: {
+        flex: 1,
+        backgroundColor: '#155F30',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding:40
+      },
+      scrollContainer:{
+        flex: 1,
+        backgroundColor: '#155F30',
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        padding:40          
+      }
 });

@@ -5,7 +5,7 @@ import HomeScreen from './screens/home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Drawer from './screens/drawer';
-import LoginGuest from './components/LoginGuest';
+import Signup from './components/Signup';
 import LoginUser from './components/LoginUser';
 import { SocketContext, socket } from './context/socket';
 
@@ -28,11 +28,11 @@ export default class App extends Component {
               component={Drawer}
               options={{ headerShown: false }} />
             <Stack.Screen
-              name="Login"
-              component={LoginGuest}
+              name="signup"
+              component={Signup}
               options={{ headerShown: false }} />
             <Stack.Screen
-              name="Login user"
+              name="loginuser"
               component={LoginUser}
               options={{ headerShown: false }} />
           </Stack.Navigator>

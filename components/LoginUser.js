@@ -6,7 +6,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 var providerApi = require("../helpers/providerApi.js");
 const localStorage = require("../helpers/localStorage");
 
-
 const LoginUser = ({ navigation, shutDownModal }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,12 +21,12 @@ const LoginUser = ({ navigation, shutDownModal }) => {
         }
     }
     const backClicked = () => {
-        shutDownModal();
+        navigation.navigate("Home");
     }
     const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
     return (
         //<AnimatedTouchable animation="fadeInUp" style={styles.footer} >
-        <View>
+        <View style={styles.container}>
             <View style={styles.action}>
                 <TextInput
                     placeholder="Enter Email"

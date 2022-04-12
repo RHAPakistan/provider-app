@@ -83,6 +83,31 @@ module.exports = {
         return resp
     },
 
+    createProvider: async(provider_data) =>{
+        var tok = await localStorage.getData("auth_token");
+        var token = concat("Token ", tok);
+        const resp = await fetch(API_URL.concat("/api/provider/register"),{
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': "Token  " + tok 
+              },
+              body: JSON.stringify(provider_data)
+        })
+        .then(async (response) => {
+            if (response.status>=400){
+                console.log("Bad request from server at createProvider");
+                return [false, response.status];
+            }
+            return response.json();
+        })            
+        .then(async (json) => {
+            return json;
+        })
+        .catch(async (e) => console.log(e))
+        return resp; 
+    },
     createPickup: async (pickup_object) =>{
         var tok = await localStorage.getData("auth_token");
         var token = concat("Token ",tok);
