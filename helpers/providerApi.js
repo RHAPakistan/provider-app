@@ -168,6 +168,78 @@ module.exports = {
         })
     return resp;
     },
+
+    auth_forgot: async (email) =>{
+        const resp = await fetch(API_URL.concat('/api/provider/auth/forgot'), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email: email})
+        })
+        .then((response)=>{
+            console.log("Auth Forget res: ",response)
+            return response.json();
+        })
+        .then((json)=>{
+            console.log(json);
+            return json;
+        })
+        .catch((e) =>{
+            console.log(e);
+            console.log("error");
+        })
+        return resp;
+    },
+    auth_forgot_verifyOTP: async (email, otp) =>{
+        const resp = await fetch(API_URL.concat('/api/provider/auth/forgot/verifyOTP'), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email: email, otp: otp})
+        })
+        .then((response)=>{
+            console.log("Auth Forget verify res: ",response)
+            return response.json();
+        })
+        .then((json)=>{
+            console.log(json);
+            return json;
+        })
+        .catch((e) =>{
+            console.log(e);
+            console.log("error");
+        })
+        return resp;
+    },
+
+    auth_forgot_changePassword: async (email, otp, password) =>{
+        const resp = await fetch(API_URL.concat('/api/provider/auth/forgot/changePassword'), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email: email, otp: otp, newPassword: password})
+        })
+        .then((response)=>{
+            console.log("Auth Forget change pass res: ",response)
+            return response.json();
+        })
+        .then((json)=>{
+            console.log(json);
+            return json;
+        })
+        .catch((e) =>{
+            console.log(e);
+            console.log("error");
+        })
+        return resp;
+    },
+
     send_push_token: async(userId, pushToken)=>{
         const token = await localStorage.getData('auth_token');
         const resp = await fetch(API_URL.concat(`/api/admin/notifications/login`), {

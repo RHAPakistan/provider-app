@@ -20,6 +20,9 @@ const LoginUser = ({ navigation, shutDownModal }) => {
             alert("Not authorized! Invalid Email id or Password");
         }
     }
+    const forgetClicked = () => {
+        navigation.navigate("send_otp");
+    }
     const backClicked = () => {
         navigation.navigate("Home");
     }
@@ -51,9 +54,16 @@ const LoginUser = ({ navigation, shutDownModal }) => {
                     <Text style={styles.buttonText}>User Login</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.button} onPress={backClicked}>
-                <Text style={styles.buttonText}>back</Text>
-            </TouchableOpacity>
+            <View>
+                <TouchableOpacity style={styles.button} onPress={forgetClicked}>
+                    <Text style={styles.buttonText}>forgot password?</Text>
+                </TouchableOpacity>
+                <View>
+                <TouchableOpacity style={[styles.button, {marginTop: '10%' }]} onPress={backClicked}>
+                    <Text style={styles.buttonText}>{'<back'}</Text>
+                </TouchableOpacity>
+                </View>
+            </View>
 </View>
         //{/* </AnimatedTouchable> */}
     );
