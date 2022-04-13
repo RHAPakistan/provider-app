@@ -7,6 +7,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Drawer from './screens/drawer';
 import Signup from './components/Signup';
 import LoginUser from './components/LoginUser';
+import sendOTP from './components/ForgetPassword/sendOTP';
+import confirmOTP from './components/ForgetPassword/confirmOTP';
+import changePassword from './components/ForgetPassword/changePassword';
 import { SocketContext, socket } from './context/socket';
 
 const Stack = createNativeStackNavigator();
@@ -35,6 +38,22 @@ export default class App extends Component {
               name="loginuser"
               component={LoginUser}
               options={{ headerShown: false }} />
+
+            <Stack.Screen
+              name="send_otp"
+              component={sendOTP}
+              options={{ headerShown: false }} />
+
+            <Stack.Screen
+              name="confirm_otp"
+              component={confirmOTP}
+              options={{ headerShown: false }} />
+
+            <Stack.Screen
+              name="change_password"
+              component={changePassword}
+              options={{ headerShown: false }} />
+
           </Stack.Navigator>
         </NavigationContainer>
       </SocketContext.Provider>
