@@ -267,5 +267,27 @@ module.exports = {
             console.log("error");
         })
         return resp;
-    }       
+    },
+    
+    get_contact: async()=>{
+        const token = await localStorage.getData('auth_token');
+        const resp = await fetch(API_URL.concat(`/api/provider/getContact`), {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer " + token
+            }
+        })
+        .then((response)=>{
+            return response.json();
+        })
+        .then((json)=>{
+            return json.message;
+        })
+        .catch((e)=>{
+            console.log(e);
+        })
+        return resp;
+    }
 }
