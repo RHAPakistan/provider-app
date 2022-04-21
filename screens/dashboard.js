@@ -1,15 +1,7 @@
 import React, {useState, useEffect} from "react";
-import { Component } from "react";
 import { StyleSheet, Text, View, Image, Button, PermissionsAndroid,SafeAreaView, TouchableOpacity} from 'react-native';
 import { styles } from "./styles";
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import HomeScreen from "./home";
-import { NavigationContainer } from "@react-navigation/native"; 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Geolocation from 'react-native-geolocation-service';
 import localStorage from "../helpers/localStorage";
-import { concat } from "react-native-reanimated";
-import * as Location from "expo-location";
 
 export default function Dashboard({navigation}) {
 
