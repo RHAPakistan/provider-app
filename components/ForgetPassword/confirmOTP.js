@@ -3,7 +3,7 @@ import { SafeAreaView, View, TextInput, Text, StyleSheet, TouchableOpacity, Aler
 import { styles } from './styles';
 var providerApi = require("../../helpers/providerApi.js");
 
-const confirmOTP = ({navigation, route}) => {
+const ConfirmOTP = ({navigation, route}) => {
 
     const email = route.params.email;
     const [otp, setOtp] = useState("");
@@ -58,4 +58,4 @@ const confirmOTP = ({navigation, route}) => {
     )
 }
 
-export default confirmOTP;
+export default ConfirmOTP;

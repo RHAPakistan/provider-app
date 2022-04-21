@@ -3,7 +3,7 @@ import { SafeAreaView, View, TextInput, Text, StyleSheet, TouchableOpacity, Aler
 import { styles } from './styles';
 var providerApi = require("../../helpers/providerApi.js");
 
-const changePassword = ({navigation, route}) => {
+const ChangePassword = ({navigation, route}) => {
 
     const email = route.params.email;
     const otp = route.params.otp;
@@ -64,4 +64,4 @@ const changePassword = ({navigation, route}) => {
     )
 }
 
-export default changePassword;
+export default ChangePassword;

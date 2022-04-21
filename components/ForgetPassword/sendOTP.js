@@ -3,7 +3,7 @@ import { SafeAreaView, View, TextInput, Text, StyleSheet, TouchableOpacity, Aler
 import { styles } from './styles';
 var providerApi = require("../../helpers/providerApi.js");
 
-const sendOTP = ({navigation}) => {
+const SendOTP = ({navigation}) => {
     const [email, setEmail] = useState("");
 
     const callAPI = async ()=>{
@@ -46,4 +46,4 @@ const sendOTP = ({navigation}) => {
 
 
 
-export default sendOTP;
+export default SendOTP;
