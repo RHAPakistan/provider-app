@@ -8,7 +8,7 @@ import socketHelpers from "../../helpers/socketHelpers";
 import OptionsDropdown from "../OptionsDropdown/index";
 import ActionBox from "../ActionBox/index";
 
-const PickupRequest = ({ navigation }) => {
+const PickupRequest = ({ navigation, setIsMapView, currentCoordinate, assignedCoordinate }) => {
     const [text, onChangeText] = React.useState("");
     const [phone, onChangePhone] = React.useState("");
     const [displayText, setDisplayText] = React.useState(text);
@@ -16,7 +16,7 @@ const PickupRequest = ({ navigation }) => {
     const [editClicked, setEdit] = React.useState('false');
     const [selectedValue, setSelectedValue] = React.useState("biryani");
     const [descriptionText, setDescription] = React.useState("");
-    const [locationLink, setLocation] = React.useState("");
+    const [location, setLocation] = React.useState("");
     const [amountOfFood, setAmountOfFood] = React.useState("");
     const [requestPlaced, setRequestPlaced] = React.useState('false');
     const [surplus, setSurplus] = React.useState("Restaurant");
@@ -43,8 +43,8 @@ const PickupRequest = ({ navigation }) => {
 
 
         //validation
-        if (locationLink == "") {
-            alert("Location link missing, add address details");
+        if (location == "") {
+            alert("add address details");
         } else {
 
             setRequestPlaced(!requestPlaced);
@@ -53,11 +53,17 @@ const PickupRequest = ({ navigation }) => {
             var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             var dateTime = date + ' ' + time;
+            let locationCoordinate = currentCoordinate;
+            if(assignedCoordinate){
+                locationCoordinate = assignedCoordinate;
+            }
+            console.log("The passing coordinates are: ",locationCoordinate)
             var pickup_object = {
                 "provider": provider_id,
                 // "admin":"",
                 // "volunteer":"",
-                "pickupAddress": locationLink,
+                "pickupAddress": location,
+                "pickupCoordinate": [locationCoordinate.latitude, locationCoordinate.longitude],
                 "phone": phone,
                 "description": descriptionText,
                 // "deliveryAddress": "deliveryAddress",
@@ -136,14 +142,27 @@ const PickupRequest = ({ navigation }) => {
                 style={styles.textBox}
                 onChangeText={setAmountOfFood}
                 placeholder={"amount of Food"} /> */}
+            
+            <TouchableOpacity onPress={()=>setIsMapView(true)} style={{margin: '3%',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 130,
+                height: 45,
+                backgroundColor: '#165E2E',
+                borderRadius: 5
+            }}
+            >
+                <Text style={{color: 'white'}}>Set Pin Location</Text>
+            </TouchableOpacity>
+
             <Text style={{
                 alignItems: 'center',
                 padding: 10
-            }}>Location:</Text>
+            }}>Address:</Text>
             <TextInput
                 style={styles.textBox}
                 onChangeText={setLocation}
-                placeholder={"Please paste the maps link for pickup location"} />
+                placeholder={"Kindly provide complete address"} />
             <Text style={{
                 alignItems: 'center',
                 padding: 10
@@ -154,14 +173,9 @@ const PickupRequest = ({ navigation }) => {
                 placeholder={"Add description of food and other details you deem important \nExample\nbiryani -> 2kgs\nqourma-> 5kgs"} />
             <View style={{flex: 1, alignItems:"center"}}>
             <ActionBox 
-            action= {placePickUp}
-            type= "primary"
-            title= "Place Pickup Request"
-            />
-            <ActionBox 
-            action= {placePickUp}
-            type= "primary"
-            title= "Place Pickup Request"
+                action= {placePickUp}
+                type= "primary"
+                title= "Place Pickup Request"
             />
             </View>
         </View>

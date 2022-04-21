@@ -91,7 +91,7 @@ module.exports = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': "Token  " + tok 
+                'Authorization': "Token  " +tok 
               },
               body: JSON.stringify(provider_data)
         })
@@ -110,13 +110,14 @@ module.exports = {
     },
     createPickup: async (pickup_object) =>{
         var tok = await localStorage.getData("auth_token");
+        console.log("Token is:",tok);
         var token = concat("Token ",tok);
         const resp = await fetch(API_URL.concat("/api/provider/pickup/register"),{
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': "Token  " + tok 
+                'Authorization': "Token  " +tok 
               },
               body: JSON.stringify(pickup_object)
         })
@@ -283,7 +284,7 @@ module.exports = {
             return response.json();
         })
         .then((json)=>{
-            return json.message;
+            return json;
         })
         .catch((e)=>{
             console.log(e);

@@ -1,63 +1,36 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Linking, Platform, SafeAreaView } from 'react-native';
-import Constants from 'expo-constants';
+import { SafeAreaView } from 'react-native';
 import providerApi from '../helpers/providerApi';
-const styles = StyleSheet.create({
-
-    MainContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    button: {
-  
-      width: '80%',
-      padding: 6,
-      backgroundColor: '#4130E6',
-      borderRadius: 7,
-    },
-  
-    TextStyle: {
-      color: '#fff',
-      fontSize: 18,
-      textAlign: 'center',
-    }
-  
-  });
-  
+import ContactComponent from '../components/ContactComponent';
+import { View } from 'react-native-animatable';
 function Contact({navigation}) {
-    const [contact, setContact] = React.useState("0");
+    const [contacts, setContacts] = React.useState([]);
     React.useEffect(()=>{
         const fetchData = async()=>{
-        const contact = await providerApi.get_contact()
-        return contact
+        const contacts = await providerApi.get_contact()
+        return contacts
         }
         fetchData()
         .then((response)=>{
             console.log("resp",response);
-            setContact(response);
+            setContacts(response);
+        })
+        .catch((e)=>{
+            console.log("Error: ",e);
+            alert("Some error occured :(");
         })
     },[navigation])
-    const dialCall = () => {
-
-        let phoneNumber = '';
-
-        if (Platform.OS === 'android') {
-            phoneNumber = `tel:${contact}`;
-        }
-        else {
-            phoneNumber = `telprompt:${contact}`;
-        }
-
-        Linking.openURL(phoneNumber);
-    };
     return (
-        <SafeAreaView style={{alignItems: 'center'}}>
-            <TouchableOpacity onPress={dialCall} activeOpacity={0.7} style={styles.button} >
-
-                <Text style={styles.TextStyle}>{contact}</Text>
-
-            </TouchableOpacity>
+        <SafeAreaView>
+            {contacts? 
+                contacts.map(contact => (
+                    <View key={contact.number}> 
+                        <ContactComponent name={contact.name} number={contact.number}></ContactComponent>
+                    </View>
+                ))
+                :
+                <View><Text style={styles.nullText}>No drive as of yet.</Text></View> 
+            }
         </SafeAreaView>
     );
 }
