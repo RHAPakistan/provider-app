@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "BROWSER=none expo start --port=19010",
+    "start": "expo start --dev-client",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "web": "expo start --web",
