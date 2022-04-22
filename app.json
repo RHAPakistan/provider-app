@@ -27,7 +27,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "prov.apk"
+      "googleServicesFile": "./google-services.json",
+      "package": "com.rhafoodapp.prov"
     },
     "web": {
       "favicon": "./assets/favicon.png"
