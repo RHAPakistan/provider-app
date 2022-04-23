@@ -57,9 +57,14 @@ const PickupRequest = ({ navigation, setIsMapView, currentCoordinate, assignedCo
             if(assignedCoordinate){
                 locationCoordinate = assignedCoordinate;
             }
-            const pickupCoordinate = {
-                type: 'Point',
-                coordinates : [locationCoordinate.longitude, locationCoordinate.latitude]
+            let pickupCoordinate = null;
+            if(locationCoordinate){
+                if(locationCoordinate.latitude){
+                    pickupCoordinate = {
+                        type: 'Point',
+                        coordinates : [locationCoordinate.longitude, locationCoordinate.latitude]
+                    }
+                }
             }
             console.log("The passing coordinates are: ",locationCoordinate)
             var pickup_object = {
