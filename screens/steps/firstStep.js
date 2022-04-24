@@ -39,7 +39,7 @@ function FirstStep({ navigation }) {
             console.log("Assigned Coordinate: ",assignedCoordinate);
               
            }, (error) => alert(error.message), { 
-             enableHighAccuracy: true, timeout: 1000*30, maximumAge: 1000*60*2
+             enableHighAccuracy: false, timeout: 1000*30, maximumAge: 1000*60*2
            }
         );
     })
