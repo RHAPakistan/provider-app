@@ -5,8 +5,8 @@ import { StyleSheet, Text, View, TouchableOpacity, Linking, Platform, Alert } fr
 export default function Maps({lat, long, setIsMapView, setAssignedCoordinate}) {
   
     const [coordinate, setCoordinate] = useState({latitude: lat, longitude: long})
-    const latDel = 0.0922;
-    const lngDel = 0.0421;
+    const latDel = 0.3522;
+    const lngDel = 0.3421;
     
     const openMaps = () =>{
         const scheme = Platform.OS === 'ios' ? 'maps:0,0?q=' : 'geo:0,0?q=';
