@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react";
-import { StyleSheet, Text, View, Image, Button, Icon, SafeAreaView, TouchableOpacity, Picker } from 'react-native';
-import { ScrollView, TextInput } from "react-native-gesture-handler";
+import React, { useEffect } from "react";
+import { Text, View, SafeAreaView } from 'react-native';
+import { ScrollView} from "react-native-gesture-handler";
 import { styles } from "../styles";
 import ProgressBar from "../../components/ProgressBar";
 import GlobalStyles from "../../styles/GlobalStyles";
@@ -20,14 +20,6 @@ function FirstStep({ navigation }) {
     const [displayPhone, setDisplayPhone] = React.useState(text);
     const [editClicked, setEdit] = React.useState('false');
     const [progressCount, setProgressCount] = React.useState(1);
-
-    const [selectedValue, setSelectedValue] = React.useState("biryani");
-    const [descriptionText, setDescription] = React.useState("");
-    const [locationLink, setLocation] = React.useState("");
-    const [amountOfFood, setAmountOfFood] = React.useState("");
-    const [requestPlaced, setRequestPlaced] = React.useState('false');
-    const [surplus, setSurplus] = React.useState("add surplus");
-    
 
     useEffect(() =>{
         Geolocation.getCurrentPosition(

@@ -1,9 +1,6 @@
 import React, {useState} from "react";
-import { Component } from "react";
-import { StyleSheet, Text, View, Image, Button, TouchableOpacity} from 'react-native';
+import { Text, View, Image, TouchableOpacity} from 'react-native';
 import { styles } from "./styles";
-import LoginUser from "../components/LoginUser";
-import Signup from "../components/Signup";
 
 const HomeScreen = ({navigation}) => {
 
@@ -18,29 +15,19 @@ const HomeScreen = ({navigation}) => {
     navigation.navigate("signup");
   }
 
-  const shutDownModal = () => {
-    setIsUserLoginClicked(false);
-    setIsGuestLoginClicked(false);
-  }
-
   return (
     <View style={styles.container} >
       <Image source={logo} onPress={() => { setIsUserLoginClicked(!isUserLoginClicked) }} />
-      {/* {isUserLoginClicked ? <LoginUser navigation={navigation} shutDownModal={shutDownModal}></LoginUser>
-        : isGuestLoginClicked ?
-          <View>
-            <Signup navigation={navigation} shutDownModal={shutDownModal}></Signup>
-          </View>
-          : */}
-          <View>
-            <TouchableOpacity style={styles.button} onPress={userLoginClicked}>
-              <Text style={styles.buttonText}>User Login</Text>
-            </TouchableOpacity>
+      
+      <View>
+        <TouchableOpacity style={styles.button} onPress={userLoginClicked}>
+          <Text style={styles.buttonText}>User Login</Text>
+        </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button} onPress={guestLoginClicked}>
-              <Text style={styles.buttonText}>Signup</Text>
-            </TouchableOpacity>
-          </View>
+        <TouchableOpacity style={styles.button} onPress={guestLoginClicked}>
+          <Text style={styles.buttonText}>Signup</Text>
+        </TouchableOpacity>
+      </View>
       
       <Text style={styles.text}>Provider App</Text>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, Button, SafeAreaView, TouchableOpacity} from 'react-native';
+import { Text, SafeAreaView} from 'react-native';
 
 function Settings_screen() {
     return ( 

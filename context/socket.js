@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import socketio from "socket.io-client";
 import React from "react";
 import {SOCKET_URL} from "../config.json";

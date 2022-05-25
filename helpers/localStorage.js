@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TextPropTypes } from 'react-native';
 
 module.exports ={
     storeData: async(key, value)=>{

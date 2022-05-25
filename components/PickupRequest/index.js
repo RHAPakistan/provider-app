@@ -1,20 +1,14 @@
-import React, { useContext, useEffect } from "react";
-import { StyleSheet, Text, View, Image, Button, Icon, SafeAreaView, TouchableOpacity, Picker } from 'react-native';
-import { ScrollView, TextInput } from "react-native-gesture-handler";
+import React, { useEffect } from "react";
+import {  Text, View, TouchableOpacity } from 'react-native';
+import {  TextInput } from "react-native-gesture-handler";
 import styles from "./styles";
 import localStorage from "../../helpers/localStorage";
 import providerApi from "../../helpers/providerApi";
-import socketHelpers from "../../helpers/socketHelpers";
 import OptionsDropdown from "../OptionsDropdown/index";
 import ActionBox from "../ActionBox/index";
 
 const PickupRequest = ({ navigation, setIsMapView, currentCoordinate, assignedCoordinate }) => {
-    const [text, onChangeText] = React.useState("");
     const [phone, onChangePhone] = React.useState("");
-    const [displayText, setDisplayText] = React.useState(text);
-    const [displayPhone, setDisplayPhone] = React.useState(text);
-    const [editClicked, setEdit] = React.useState('false');
-    const [selectedValue, setSelectedValue] = React.useState("biryani");
     const [descriptionText, setDescription] = React.useState("");
     const [location, setLocation] = React.useState("");
     const [amountOfFood, setAmountOfFood] = React.useState("");
@@ -69,17 +63,11 @@ const PickupRequest = ({ navigation, setIsMapView, currentCoordinate, assignedCo
             console.log("The passing coordinates are: ",locationCoordinate)
             var pickup_object = {
                 "provider": provider_id,
-                // "admin":"",
-                // "volunteer":"",
                 "pickupAddress": location,
                 "pickupCoordinate": pickupCoordinate,
                 "phone": phone,
                 "description": descriptionText,
-                // "deliveryAddress": "deliveryAddress",
                 "placementTime": dateTime,
-                // "acceptanceTime":"",
-                // "pickUpTime":"",
-                // "deliveryTime":"",
                 "amountOfFood": amountOfFood,
                 "typeOfFood": surplus,
                 "broadcast": true,
@@ -143,14 +131,6 @@ const PickupRequest = ({ navigation, setIsMapView, currentCoordinate, assignedCo
                     value={surplus}
                     setSelectedValue={setSurplus} />
             </View>
-            {/* <Text style={{
-                alignItems: 'center',
-                padding: 10
-            }}>Amount of food:</Text>
-            <TextInput
-                style={styles.textBox}
-                onChangeText={setAmountOfFood}
-                placeholder={"amount of Food"} /> */}
             
             <TouchableOpacity onPress={()=>setIsMapView(true)} style={{margin: '3%',
                 alignItems: 'center',

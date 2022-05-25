@@ -1,8 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { concat } from 'react-native-reanimated';
-import { retrySymbolicateLogNow } from 'react-native/Libraries/LogBox/Data/LogBoxData';
 import {API_URL} from "../config.json";
-import {SocketContext, socket, initiateSocketConnection} from "../context/socket";
+import { initiateSocketConnection} from "../context/socket";
 import * as Device from 'expo-device';
 import * as Notifications from "expo-notifications";
 const localStorage = require("../helpers/localStorage");
@@ -26,7 +24,6 @@ module.exports = {
         .then((response) => {
             console.log(response.status);
             if (response.status=='200'){
-                //navigation.navigate("Drawer");
                 return response.json()
             }else{
                 console.log("not authorized");
